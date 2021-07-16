@@ -1,9 +1,12 @@
 const express = require('express')
 const { Server } = require('http')
-const app = express()
+const app = express();
+const cors = require('cors');
 app.use(express.json());
 const {generateUniqueIDs} = require("./HELPER")
 const {db: fruits} = require("./DB")
+
+app.use(cors())
 
 app.get('/', (req,res) => {
     res.send('Hello World!')
@@ -22,10 +25,11 @@ app.get('/fruits', (req,res) => {
 })
 
 app.put('/fruits', (req,res) => {
-    const {_id } = req.query;
+    const { _id } = req.query;
+    
+    
     const {name, rating} = req.body;
     
-    // console.log(_id)
     
     if (_id === undefined) {
         return res.status(400).send({ message: '?_id is off'});
